@@ -8,6 +8,7 @@
         "Content-Type": "application/json",
         "Authorization":"Bearer "+ TOKEN
       }};
+      this.data = {};   //ここに送信データを格納する(JSON)
     }
   }
     LINEAPI.prototype.ReplyMessage = function(ReplyToken,Message){
@@ -35,12 +36,11 @@
     LINEAPI.prototype.BroadcastMessage = function(Message){
       //全体メッセージ用メソッド
       endpoint = this.endpoint + 'broadcast';
-      options = this.options;
-      options.messages = [{
+      this.data.messages = [{
         "type":"text",
         "text":Message
       }];
-     addLog(options);
+      this.options.payload = JSON.stringify(this.data.messages);
       return UrlFetchApp.fetch(endpoint,options);
     };
   /*     LINE.send.prototype.ImageMessage = function(Type,OriginalURL,PreviewURL){
