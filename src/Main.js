@@ -10,7 +10,7 @@ function doPost(e){
   
   let line_api = new LINEAPI(BASE_URL,ACCESS_TOKEN,SECRET);
   
-  let res = line_api.send.BroadcastMessage("TestMessage");
+  let res = line_api.BroadcastMessage("TestMessage");
   
 }
 
