@@ -1,4 +1,4 @@
-  var LINEAPI =  class{
+  var LINEAPI = class{
     constructor(BASE_URL,SECRET,TOKEN){//初期化することで最低限の情報を確保
     /*コンストラクタ(初期化メソッド)*/
     this.endpoint = BASE_URL; //ENDPOINT
@@ -40,6 +40,7 @@
         "type":"text",
         "text":Message
       }];
+     addLog(options);
       return UrlFetchApp.fetch(endpoint,options);
     };
   /*     LINE.send.prototype.ImageMessage = function(Type,OriginalURL,PreviewURL){
