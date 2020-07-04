@@ -1,14 +1,14 @@
   var LINEAPI = class{
-    constructor(BASE_URL,SECRET,TOKEN){//初期化することで最低限の情報を確保
+    constructor(BASE_URL,TOKEN){//初期化することで最低限の情報を確保
     /*コンストラクタ(初期化メソッド)*/
     this.endpoint = BASE_URL; //ENDPOINT
     this.options = {
       "method":"post",
       "headers":{
         "Content-Type": "application/json",
-        "Authorization":"Bearer "+ TOKEN
+        "Authorization":'Bearer '+ TOKEN
       }};
-      this.data = {};   //ここに送信データを格納する(JSON)
+      this.payload = {};   //ここに送信データを格納する(JSON)
     }
   }
     LINEAPI.prototype.ReplyMessage = function(ReplyToken,Message){
@@ -35,12 +35,12 @@
     };
     LINEAPI.prototype.BroadcastMessage = function(Message){
       //全体メッセージ用メソッド
-      endpoint = this.endpoint + 'broadcast';
-      this.data.messages = [{
+      endpoint = this.endpoint + 'message/broadcast';
+      this.payload.messages = [{
         "type":"text",
         "text":Message
       }];
-      this.options.payload = JSON.stringify(this.data.messages);
+      this.options.payload = JSON.stringify(this.payload.messages);
       return UrlFetchApp.fetch(endpoint,options);
     };
   /*     LINE.send.prototype.ImageMessage = function(Type,OriginalURL,PreviewURL){

@@ -8,7 +8,7 @@ function doPost(e){
   //var replyToken = JSON.parse(e.postData.contents).events[0].replyToken;
   //var message = JSON.parse(e.postData.contents).events[0].message.text;
   
-  let line_api = new LINEAPI(BASE_URL,SECRET,ACCESS_TOKEN);
+  let line_api = new LINEAPI(BASE_URL,ACCESS_TOKEN);
   
   let res = line_api.BroadcastMessage("TestMessage");
   
