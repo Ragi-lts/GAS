@@ -56,7 +56,7 @@
     this.payload.messages = [{
       "originalContentUrl": OriginalURL,
     }];
-    if (ImageType == "Video")
+    if (ImageType == "Image")
     {
       this.payload.type = "image";
       this.payload.messages.previewImageUrl = PreviewURL;
@@ -66,20 +66,20 @@
       this.payload.type = "video";
       this.payload.messages.previewImageUrl = PreviewURL;
     }  
-    if (ImageType == "Video")
+    if (ImageType == "Audio")
     {
       this.payload.type = "audio";
       this.payload.duration = Duration;
     }
-
   };
 
 
 //////////////////////////////////////////////////////
   //LINE========GET
-  LINEAPI.prototype.GetUserProfile = function(userId)//ユーザーに対する情報取得
+  /*LINEAPI.prototype.GetUserProfile = function(userId)//ユーザーに対する情報取得
   {
     endpoint += "/profile" + userId
     options = this.options;
     return UrlFetchApp.fetch(endpoint,options);
   };
+  */
