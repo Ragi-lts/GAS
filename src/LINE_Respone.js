@@ -1,1 +1,3 @@
+function RegisterMember (MemberId, LINEAPI){
 
+}
