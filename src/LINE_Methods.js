@@ -52,8 +52,25 @@
   };
 
   //動画像送信メソッド
-  LINEAPI.prototype.ImageMessage = function(SendType,ImageType,OriginalURL,PreviewURL){
-    
+  LINEAPI.prototype.ImageMessage = function(SendType,ImageType,OriginalURL,PreviewURL,Duration=0){
+    this.payload.messages = [{
+      "originalContentUrl": OriginalURL,
+    }];
+    if (ImageType == "Video")
+    {
+      this.payload.type = "image";
+      this.payload.messages.previewImageUrl = PreviewURL;
+    }
+    if (ImageType == "Video")
+    {
+      this.payload.type = "video";
+      this.payload.messages.previewImageUrl = PreviewURL;
+    }  
+    if (ImageType == "Video")
+    {
+      this.payload.type = "audio";
+      this.payload.duration = Duration;
+    }
 
   };
 
