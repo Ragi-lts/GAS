@@ -1,3 +1,0 @@
-function RegisterMember (MemberId, LINEAPI){
-
-}

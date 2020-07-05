@@ -1,4 +1,4 @@
-  var LINEAPI = class{
+class LINEAPI{
     constructor(BASE_URL,TOKEN){//初期化することで最低限の情報を確保
     /*コンストラクタ(初期化メソッド)*/
     this.endpoint = BASE_URL; //  INITIAL_ENDPOINT
