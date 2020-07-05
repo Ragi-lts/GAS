@@ -1,9 +1,9 @@
-function TestspreadSheet (DATABASEKEY,LINEAPI){
+function LoadDataBase (LINEAPI,DATABASEKEY=null){
+    var key = DATABASEKEY;
     if (!SpreadsheetApp.openById(DATABASEKEY)) 
     {
-        DATABASEKEY =  SpreadsheetApp.create("DATABASE").getId();
+        key =  SpreadsheetApp.create("DATABASE").getId();
     }
-  
-
-
+    return key;
 }
+
