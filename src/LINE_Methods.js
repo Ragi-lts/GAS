@@ -16,7 +16,7 @@ class LINEAPI{
  
 //リプライメッセージ用メソッド   
   LINEAPI.prototype.ReplyMessage = function(ReplyToken,Message){
-    endpoint  = this.endpoint + 'message/reply';
+    endpoint  = this.endpoint + '/message/reply';
     options   = this.options; 
     this.payload.replyToken = ReplyToken;
     this.payload.messages = [{
@@ -29,7 +29,7 @@ class LINEAPI{
 
     //送信メッセージ用メソッド
     LINEAPI.prototype.PushMessage = function(UserId,Message){
-    endpoint = this.endpoint + 'message/push'; 
+    endpoint = this.endpoint + '/message/push'; 
     options = this.options;
     this.payload.to = UserId;
     options.messages = [{
@@ -41,7 +41,7 @@ class LINEAPI{
 
   //全体メッセージ用メソッド
   LINEAPI.prototype.BroadcastMessage = function(Message){
-    endpoint  = this.endpoint + 'message/broadcast';
+    endpoint  = this.endpoint + '/message/broadcast';
     options   = this.options; 
     this.payload.messages = [{
       "type": "text",

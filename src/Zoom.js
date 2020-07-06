@@ -4,7 +4,7 @@ class Zoom{
     this.UserId  = PropertiesService.getScriptProperties().getProperty("Zoom_UserId");
     this.apikey = PropertiesService.getScriptProperties().getProperty("Zoom_APIKEY");
     this.secret = PropertiesService.getScriptProperties().getProperty("Zoom_APISECRET");
-    this.Token = function(){
+    this.Token = function(){                                //JWT Token の自動生成
         let header = {
             "alg":"HS256",
             "typ":"JWT"
@@ -33,53 +33,51 @@ class Zoom{
 
     /*****************************************************************:*/
     if (this.UserId == null){
-            let url =this.BasePoint + "users?status=active"; 
-            let Res = UrlFetchApp.fetch(url,this.options);
-            let code = Res.getResponceCode;
+            let url = this.BasePoint + "/users?status=active"; 
+            var Res = UrlFetchApp.fetch(url,this.options);
+            var code = Res.getResponseCode();
             if (code != 200) return null;
-            let ResData = JSON.parse(Res.getContentText('utf-8'));
+            var ResData = JSON.parse(Res.getContentText('utf-8'));
             this.UserId = ResData.users[0].id;
         }
     }
 }
 
-Zoom.prototype.CreateMeeting = function(Topic,startTime,duration="")
+Zoom.prototype.CreateMeeting = function(Topic,startTime)
 {   
-    let url = this.BasePoint + "/"+ this.UserId + "/" +"meetings";
+    let url = `${this.BasePoint}/users/${this.UserId}/meetings`;
     if(isType(startTime) != "Date")   
     {
         return console.error('データ型が正しくありません');
     }
-   let DateFormat = function (dateObj)
+   let DateFormat = function (startTime)
     {
-        let y = dateObj.getFullYear();
-        let m = dateObj.getMonth();
-        let d = dateObj.getDate();
-        let h = dateObj.getHours();
-        let min = dateObj.getMinutes();
-        let sec = dateObj.getSeconds();
+        let y = startTime.getFullYear();
+        let m = startTime.getMonth()+1;
+        let d = startTime.getDate()+1;
+        let h = startTime.getHours();
+        let min = startTime.getMinutes();
+        let sec = startTime.getSeconds();
         return `${y}-${m}-${d}T${h}:${min}:${sec}Z`;
     }
     let PostJson = {
             "topic": Topic,
             "start_time": DateFormat(startTime),
-            "duration": duration,
             "timezone": "Asia/Tokyo",
             "password": "",
             "settings": {
               "host_video": "true",
               "participant_video": "true",
               "waiting_room":"true"
-            }
-          };
+            }};
     this.options.method = "POST";
     this.options.payload = JSON.stringify(PostJson);
- /*   let Res = UrlFetchApp.fetch(url,this.options);
-          if (Res.getResponceCode == 201) 
-          {
-            console.log("会議が作成できました")
+    var Res = UrlFetchApp.fetch(url,this.options);
+    var code = Res.getResponseCode();
+    if (code== 201) 
+        {
+           console.log("会議が作成できました")
             return true;   
-          }    
-          return console.error("会議の作成ができませんでした");
-          */
+        }
+        return console.error("会議の作成ができませんでした");
 }
