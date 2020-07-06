@@ -11,6 +11,6 @@ function doPost(e){
   
   var line_api = new LINEAPI(BASE_URL,ACCESS_TOKEN);
   
- // let res = line_api.BroadcastMessage("TestMessage");
+//  let res = line_api.BroadcastMessage("TestMessage");
 }
 
