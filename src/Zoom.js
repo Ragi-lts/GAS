@@ -1,12 +1,12 @@
 class Zoom{
  constructor(BasePoint)    
  {  this.BasePoint = BasePoint;
-    this.TOKEN = PropertiesService.getScriptProperties().getProperty("JWT_Token");
+    this.Token = PropertiesService.getScriptProperties().getProperty("JWT_Token");
     this.UserId  = PropertiesService.getScriptProperties().getProperty("Zoom_UserId");
     this.apikey = PropertiesService.getScriptProperties().getProperty("Zoom_APIKEY");
     this.secret = PropertiesService.getScriptProperties().getProperty("Zoom_APISECRET");
     this.header = {
-        "Authorization":'Bearer '+ this.TOKEN
+        "Authorization":'Bearer '+ this.Token
     };
     this.options  =  {
         'method'    :   'POST',
@@ -31,7 +31,10 @@ class Zoom{
 Zoom.prototype.CreateMeeting = function(Topic,startTime,duration="")
 {   
     let url = this.BasePoint + "/"+ this.UserId + "/" +"meetings";
-    if ((typeof startTime) != Date) return console.error('データ型が正しくありません');
+    if ((typeof startTime) != Date) 
+    {
+        return console.error('データ型が正しくありません');
+    }
     let DateFormat = function (dateObj)
     {
         let y = dateObj.getFullYear();
