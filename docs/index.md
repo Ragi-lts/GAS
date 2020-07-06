@@ -1,3 +1,5 @@
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
 #  Zoom API + LINE Message APIによる自動会議システムの作成
 ---
 ##  きっかけ
