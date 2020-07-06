@@ -33,7 +33,7 @@ class Zoom{
 
     /*****************************************************************:*/
     if (this.UserId == null){
-            let url = this.BasePoint + "/users?status=active"; 
+            let url = `${this.BasePoint}/users?status=active`; 
             var Res = UrlFetchApp.fetch(url,this.options);
             var code = Res.getResponseCode();
             if (code != 200) return null;

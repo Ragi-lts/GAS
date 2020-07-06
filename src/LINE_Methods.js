@@ -76,10 +76,9 @@ class LINEAPI{
 
 //////////////////////////////////////////////////////
   //LINE========GET
-  /*LINEAPI.prototype.GetUserProfile = function(userId)//ユーザーに対する情報取得
-  {
+LINEAPI.prototype.GetUserProfile = function(userId)//ユーザーに対する情報取得
+{   if (!userId) return null;
     endpoint += "/profile" + userId
     options = this.options;
     return UrlFetchApp.fetch(endpoint,options);
-  };
-  */
+};
