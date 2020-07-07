@@ -23,62 +23,78 @@ class LINEAPI{
       "type": "text",
       "text": Message
     }];
-    this.options.payload = JSON.stringify(this.payload);
-    return UrlFetchApp.fetch(endpoint,this.options);
+     this.options.payload = JSON.stringify(this.payload);
+    return {'url':endpoint,'options':this.options};
   };
 
     //送信メッセージ用メソッド
     LINEAPI.prototype.PushMessage = function(UserId,Message){
     endpoint = this.endpoint + '/message/push'; 
-    options = this.options;
     this.payload.to = UserId;
-    options.messages = [{
+    this.payload.messages = [{
       "type": "text",
       "text":  Message
     }];
-    return UrlFetchApp.fetch(endpoint,this.options);
+     this.options.payload = JSON.stringify(this.payload);
+    return {'url':endpoint,'options':this.options};
   };
 
   //全体メッセージ用メソッド
   LINEAPI.prototype.BroadcastMessage = function(Message){
     endpoint  = this.endpoint + '/message/broadcast';
-    options   = this.options; 
     this.payload.messages = [{
       "type": "text",
       "text": Message
     }];
-    this.options.payload = JSON.stringify(this.payload);
-    return UrlFetchApp.fetch(endpoint,this.options);
+     this.options.payload = JSON.stringify(this.payload);
+    return {'url':endpoint,'options':this.options};
   };
 
   //動画像送信メソッド
-  LINEAPI.prototype.ImageMessage = function(SendType,ImageType,OriginalURL,PreviewURL,Duration=0){
+  LINEAPI.prototype.ImageMessage = function(ImageType,OriginalURL,PreviewURL,Duration=0){
     this.payload.messages = [{
       "originalContentUrl": OriginalURL,
     }];
-    if (ImageType == "Image")
-    {
-      this.payload.type = "image";
-      this.payload.messages.previewImageUrl = PreviewURL;
-    }
-    if (ImageType == "Video")
-    {
-      this.payload.type = "video";
-      this.payload.messages.previewImageUrl = PreviewURL;
-    }  
-    if (ImageType == "Audio")
-    {
-      this.payload.type = "audio";
-      this.payload.duration = Duration;
-    }
-  };
-
-
+    switch (ImageType){
+      case "Image":
+      {
+        this.payload.type = "image";
+        this.payload.messages.previewImageUrl = PreviewURL;
+        break;
+      }
+      case "Video":
+      {
+        this.payload.type = "video";
+        this.payload.messages.previewImageUrl = PreviewURL;
+        break;
+      }  
+      case "Audio":
+      {
+        this.payload.type = "audio";
+        this.payload.duration = Duration;
+        break;
+      }
+      default:
+        console.error("Invlalid ImageType.")
+    };
+     this.options.payload = JSON.stringify(this.payload);
+    return {'url':endpoint,'options':this.options};
+  }
 //////////////////////////////////////////////////////
   //LINE========GET
 LINEAPI.prototype.GetUserProfile = function(userId)//ユーザーに対する情報取得
 {   if (!userId) return null;
     endpoint += "/profile" + userId
-    options = this.options;
-    return UrlFetchApp.fetch(endpoint,options);
+     this.options.payload = JSON.stringify(this.payload);
+    return {'endpoint':endpoint,'options':this.options};
 };
+
+
+
+
+
+
+
+
+
+
