@@ -1,4 +1,4 @@
-class MeetingMember {
+class MeetingMember{
     constructor(MeetingId,UserId,Name,RecieveTime,DATABASEKEY) {//ここに書かれているインスタンスをすべてヘッダとする
         this.MeetingId = MeetingId; //会議コード( ZoomAPI)
         this.Id = UserId;           //ユーザーID
@@ -69,12 +69,12 @@ MeetingMember.prototype.getList = function()
     return Data;    //辞書型の配列
 }
 
-MeetingMember.prototype.SearchMember = function ()  //すでにResistされているか
+MeetingMember.prototype.Search = function ()  //すでにResistされているか
 {
     let MemberList = this.getList();
     for(let i=0; i<MemberList.length; i++)
     {
-        if (MemberList[i][this.HEADER.UserId] == this.Id)
+        if (MemberList[i].UserId == this.Id)
         {
             return i;   メンバーの辞書配列の該当要素の番号を返す
         }

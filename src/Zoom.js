@@ -1,4 +1,4 @@
-class Zoom{
+class Zoom {
  constructor(BasePoint)    
  {  this.BasePoint = BasePoint;
     this.UserId  = PropertiesService.getScriptProperties().getProperty("Zoom_UserId");
@@ -43,7 +43,7 @@ class Zoom{
     }
 }
 
-Zoom.prototype.CreateMeeting = function(Topic,startTime)
+Zoom.prototype.CreateMeeting = function(Topic,startTime,DATABASEKEY)
 {   
     let url = `${this.BasePoint}/users/${this.UserId}/meetings`;
     if(isType(startTime) != "Date")   
@@ -54,8 +54,8 @@ Zoom.prototype.CreateMeeting = function(Topic,startTime)
     {
         let y = startTime.getFullYear();
         let m = startTime.getMonth()+1;
-        let d = startTime.getDate()+1;
-        let h = startTime.getHours();
+        let d = startTime.getDate();
+        let h = startTime.getHours()-9;
         let min = startTime.getMinutes();
         let sec = startTime.getSeconds();
         return `${y}-${m}-${d}T${h}:${min}:${sec}Z`;
@@ -63,8 +63,8 @@ Zoom.prototype.CreateMeeting = function(Topic,startTime)
     let PostJson = {
             "topic": Topic,
             "start_time": DateFormat(startTime),
-            "timezone": "Asia/Tokyo",
             "password": "",
+            "timezone":"Asia/Tokyo",
             "settings": {
               "host_video": "true",
               "participant_video": "true",
@@ -76,8 +76,45 @@ Zoom.prototype.CreateMeeting = function(Topic,startTime)
     var code = Res.getResponseCode();
     if (code== 201) 
         {
-           console.log("会議が作成できました")
-            return true;   
+          let data = JSON.parse(Res.getContentText());
+          console.log(data);
+          var recieve ={
+           'topic':data.topic,
+           'MeetingId':data.id,
+            'duration':data.duration,
+            'startat':startTime,
+            'joinurl':data.join_url,
+            'password':data.password
+            };
+            if (this.PostDB(recieve,DATABASEKEY)) return recieve;
+            else return console.error("Error");   
         }
         return console.error("会議の作成ができませんでした");
+}
+
+
+Zoom.prototype.PostDB = function (RecieveData,DATABASEKEY)
+{
+    let STORAGE = SpreadsheetApp.openById(DATABASEKEY);  
+    if (!STORAGE) return null;                            //見つからなければ失敗
+    let CenterHEADER = ['Id', 'MeetingId', 'joinUrl','pass'];
+    let SHEET = STORAGE.getSheetByName('Center');   //会議参加情報を集めたシート
+    if (!SHEET)  //このシートがなかったら
+    {
+       SHEET = STORAGE.insertSheet('Center');    //新規作成する
+        SHEET.appendRow(Object.keys(RecieveData));                        //ヘッダも書き込む．
+    }
+        SHEET.appendRow(Object.values(RecieveData));
+    
+    let HEADER = { 'Id'        :   "id",       //連番
+                    'UserId'    :   "USERId",   //固有ID
+                    'Name'      :   "Name",     //参加者名
+                    'Authcode'  :   "AuthCode",    //認証コード
+                    'ResTime'   :   "ResTime"       // 参加登録時間 
+    }    //シートヘッダ
+        
+        SHEET = STORAGE.insertSheet(`${RecieveData.MeetingId}`);    //新規作成する
+        SHEET.appendRow(Object.keys(HEADER));                        //ヘッダも書き込む．
+       
+        return true;
 }

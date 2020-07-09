@@ -80,6 +80,35 @@ class LINEAPI{
      this.options.payload = JSON.stringify(this.payload);
     return {'url':endpoint,'options':this.options};
   }
+
+  LINEAPI.prototype.QuickReply  = function(ReplyToken,Message,ItemArray)
+  {
+    endpoint  = this.endpoint + '/message/reply';
+    this.payload.replyToken = ReplyToken;
+    this.payload.messages = [{
+      "type": "text",
+      "text": Message,
+      "quickReply":{
+      "items":ItemArray  //DictArray
+      }
+    }];
+     this.options.payload = JSON.stringify(this.payload);
+    return {'url':endpoint,'options':this.options};
+  }
+
+  LINEAPI.prototype.FlexMessage = function(FlexJson)
+  {
+    endpoint  = this.endpoint + '/message/broadcast';
+    this.payload.messages = [{
+      "type": "flex",
+      "altText": "this is a flex message",
+      "contents": FlexJson
+    }];
+     this.options.payload = JSON.stringify(this.payload);
+    return {'url':endpoint,'options':this.options};
+  }
+
+  
 //////////////////////////////////////////////////////
   //LINE========GET
 LINEAPI.prototype.GetUserProfile = function(userId)//ユーザーに対する情報取得
