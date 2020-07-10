@@ -100,7 +100,7 @@ function Flex (MeetingId,topic,DayAt,StartAt){
               "action": {
                 "type": "postback",
                 "label": "参加する",
-                "data": `&attend=${MeetingId}`,
+                "data": `?attend=${MeetingId}`,
                 "displayText": "参加します"
               },
               "style": "primary",
@@ -124,7 +124,7 @@ function Flex (MeetingId,topic,DayAt,StartAt){
         },
         {
           "type": "text",
-          "text": "新システム開発に伴い，参加ボタンを押した際にレスポンスに時間がかかる，またはレスポンスがない可能性があります．その際は，開始時間後に問い合わせをお願いします．",
+          "text": "新システムの開発と移行に伴い，参加ボタンを押した際にレスポンスに時間がかかる，またはレスポンスがない可能性があります。その際は，会議の開始時間後に問い合わせをお願いします。",
           "wrap": true,
           "color": "#FF7272"
         }

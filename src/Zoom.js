@@ -43,7 +43,7 @@ class Zoom {
     }
 }
 
-Zoom.prototype.CreateMeeting = function(Topic,startTime,DATABASEKEY)
+Zoom.prototype.CreateMeeting = function(Topic,startTime)
 {   
     let url = `${this.BasePoint}/users/${this.UserId}/meetings`;
     if(isType(startTime) != "Date")   
@@ -93,7 +93,7 @@ Zoom.prototype.CreateMeeting = function(Topic,startTime,DATABASEKEY)
 }
 
 
-Zoom.prototype.PostDB = function (RecieveData,DATABASEKEY)
+Zoom.prototype.PostDB = function (RecieveData)
 {
     let STORAGE = SpreadsheetApp.openById(DATABASEKEY);  
     if (!STORAGE) return null;                            //見つからなければ失敗
@@ -117,4 +117,30 @@ Zoom.prototype.PostDB = function (RecieveData,DATABASEKEY)
         SHEET.appendRow(Object.keys(HEADER));                        //ヘッダも書き込む．
        
         return true;
+}
+
+
+
+Zoom.prototype.checkMeeting = function ()
+{
+    let url = `${this.BasePoint}/users/${this.UserId}/meetings`;
+    let Res = UrlFetchApp.fetch(url,this.options);
+    let list = JSON.parse(Res.getContentText()).meetings;
+    
+    let Data = [];
+    for(let i=0; i<list.length; i++)
+    {   
+         let a = Date.parse(list[i].start_time);
+        if(new Date(a) > Date.now())
+        {
+        let detail  = {
+            'meetingId':    list[i].id,
+            'topic':        list[i].topic,
+            'start_time':   list[i].start_time
+            }
+            Data.push(detail);        
+        }
+    }
+    console.log("end");
+    return Data;
 }
