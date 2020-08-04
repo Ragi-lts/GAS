@@ -6,6 +6,11 @@ let SECRET = PropertiesService.getScriptProperties().getProperty('CHANNNEL_SECRE
 let DATABASE = PropertiesService.getScriptProperties().getProperty('DATABASEKEY');
 let RichMenuImg = PropertiesService.getScriptProperties().getProperty('RichMenuImg');
 
+function doGet(){
+  return HtmlService.createHtmlOutputFromFile("Home.html");
+}
+
+
 //受信したら動作する
 function doPost(e) {
   let source = JSON.parse(e.postData.contents);
@@ -24,14 +29,12 @@ function doPost(e) {
 }
 
 
-
-
 function setMenu() {    //LocalTest
   const line_api = new LINEAPI(BASE_URL, ACCESS_TOKEN);   /*LINEAPI操作用インスタンス作成*/
   //  const zoom_api = new Zoom(Zoom_BaseURL);             /*Zoomの操作用インスタンス作成*/
 
   const Richmenu = [                                      /*リッチメニューの詳細*/
-    {
+   {
       'x': 0,
       'y': 0,
       'width': 400,
@@ -61,12 +64,6 @@ function setMenu() {    //LocalTest
     RichMenuImg,
     1200, 405,
     Richmenu, true);
-
-  /*
-      let dict = Flex(Res.MeetingId, Res.topic, `${day}/${d}`, `${h}:${min}`);
-    var res = line_api.FlexMessage(dict);
-    UrlFetchApp.fetch(res.url, res.options);
-  */
 }
 
 
